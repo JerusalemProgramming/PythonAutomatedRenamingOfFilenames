@@ -87,7 +87,7 @@ def fn_RenameFiles(files, pattern, replacement):
         ## TEST OUTPUT - FILE PATH OF CURRENT WORKING DIRECTORY
         print("FILE PATH OF CURRENT WORKING DIRECTORY =", filepath)
 
-        ## RENAME FILES IN CWD; JOIN EMPTY STRING FILEPATH + STRING OF INTEGER OF CURRENT COUNTER + STRING OF .GIF 
+        ## RENAME FILES IN CWD; JOIN EMPTY STRING FILEPATH + STRING OF INTEGER OF CURRENT COUNTER + STRING OF .JPG 
         os.rename(os.path.join(filepath, each), os.path.join(filepath, str(i)+'.jpg'))
 
         ## INCREASE COUNTER
