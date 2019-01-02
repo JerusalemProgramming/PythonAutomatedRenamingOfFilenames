@@ -1,2 +1,2 @@
 # PythonAutomatedRenamingOfFilenames
-Python files to automate the renaming of filenames (e.g. GIFS, JPGs, PDFs, etc.)
+Python files to automate the renaming of filenames (e.g. GIFS, JPGs, PNGs, PDFs, etc.)
