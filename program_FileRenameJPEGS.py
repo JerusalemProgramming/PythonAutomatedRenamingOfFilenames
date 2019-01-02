@@ -101,7 +101,7 @@ def fn_RenameFiles(files, pattern, replacement):
     print("glob.glob(files) =", glob.glob(files))
 
     ## TEST OUTPUT - GAME OVER
-    print("GAVE OVER.  GO CHECK YOUR IMAGE FOLDER")
+    print("GAME OVER.  GO CHECK YOUR IMAGE FOLDER")
     
     
 ## END DEFINE FUNCTIONS
