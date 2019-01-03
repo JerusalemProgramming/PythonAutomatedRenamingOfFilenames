@@ -60,7 +60,7 @@ def fn_RenameFiles(files, pattern, replacement):
             ##...THEN RENAME THE PATHNAME WITH NEWFILENAME
             os.rename(pathname, os.path.join(os.path.dirname(pathname), NewFilename))
             
-        ## ELSE DOES THIS CONDTION EVER GET TRIGGERED?
+        ## ELSE DOES THIS CONDITION EVER GET TRIGGERED?
         else:
             print("DOES THIS CONDITION EVER GET TRIGGERED?")
 
