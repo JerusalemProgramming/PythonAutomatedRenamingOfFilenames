@@ -42,7 +42,7 @@ def fn_RenameFiles(files, pattern, replacement):
         ## ELSE IF PATHNAME DOES NOT EQUAL BASENAME...
         else:
 
-            ##...TEN TEST OUTPUT
+            ##...THEN TEST OUTPUT
             print("pathname == basename:  FALSE")
             print("pathname string =", pathname) ## STRING FILENAME IN DIRECTORY
             print("basename string =", basename) ## STRING FILENAME IN DIRECTORY
