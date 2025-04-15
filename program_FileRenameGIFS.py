@@ -1,132 +1,84 @@
-## THIS PYTHON FILE NEEDS TO BE RUN WITHIN THE IMAGES FOLDER WITH GIF IMAGES WHOSE
-## ..FILENAMES NEED RENAMED TO NUMERICAL SEQUENCE (1.gif, 2.gif, 3.gif, 4.gif... etc.)
-
 ## IMPORT MODULES
-## IMPORT MODULES
-## IMPORT MODULES
+import os
 
-import re, glob, os, pathlib
+## BEGIN DEFINE FUNCTION
+def fn_RenameFilesByType(FileExtension, DirectoryTarget="images"):
 
-## BEGIN DEFINE FUNCTIONS
-## BEGIN DEFINE FUNCTIONS
-## BEGIN DEFINE FUNCTIONS
+    ## GET LOWERCASE FILE EXTENSION // STRIP DOT FROM LEFT SIDE OF FILE EXTENSION
+    FileExtension = FileExtension.lower().lstrip('.')
 
-def fn_RenameFiles(files, pattern, replacement):
-
-    ## DECLARE VARIABLES
-    ## SET COUNTER FOR LATER USE
-    i = 1
-
-    ## BEGIN FOR LOOP
-    ## BEGIN FOR LOOP
-    ## BEGIN FOR LOOP
+    ## TEST PRINT OUTPUT
+    print(f"FileExtension: {FileExtension}")
     
-    ## FOR EACH PATHNAME IN 
-    for pathname in glob.glob(files):
+    ## GET ABSOLUTE PATH
+    DirectoryTargetAbsolute = os.path.abspath(DirectoryTarget)
 
-        ## PATHNAME
-        #print("pathname =", pathname) ## TEST OUTPUT
+    ## GET LIST OF FILES IN TARGET DIRECTORY
+    ListOfFileNames = [
 
-        ## BASENAME
-        basename = os.path.basename(pathname)
-        #print("basename =", basename) ## TEST OUTPUT
+        ## PART 1: ALL THIS IS ONE LIST COMPREHENSION STATEMENT...
+        f for f in os.listdir(DirectoryTargetAbsolute)
 
-        ## IF PATHNAME EQUALS BASENAME...
-        if pathname == basename:
+        ## PART 2: ...YES, THIS TOO...
+        if f.lower().endswith(f".{FileExtension}") and os.path.isfile(os.path.join(DirectoryTargetAbsolute, f))
+    ]
+    
+    ## TEST PRINT OUTPUT
+    print(f"ListOfFileNames: {ListOfFileNames}")
 
-            ##...THEN TEST OUTPUT - THIS SHOULD ALWAYS PRINT TRUE
-            print("pathname == basename:  TRUE")
-            print("pathname string =", pathname) ## STRING FILENAME IN DIRECTORY
-            print("basename string =", basename) ## STRING FILENAME IN DIRECTORY
+    ## SORT FILES
+    ListOfFileNames.sort()
 
-        ## ELSE IF PATHNAME DOES NOT EQUAL BASENAME...
-        else:
+    ## TEST PRINT OUTPUT
+    print(f"ListOfFileNames: {ListOfFileNames}")
 
-            ##...THEN TEST OUTPUT
-            print("pathname == basename:  FALSE")
-            print("pathname string =", pathname) ## STRING FILENAME IN DIRECTORY
-            print("basename string =", basename) ## STRING FILENAME IN DIRECTORY
+    ## FIRST RENAME TO TEMPORARY FILE NAMES TO AVOID CONFLICTS
+    TempFileMap = {}  ## Dictionary to map original -> temp name
 
-        ## CALCULATE NEW FILENAME WITH REGULAR EXPRESSIONS   
-        NewFilename = re.sub(pattern, replacement, basename)
-
-        ## TEST OUTPUT
-        print("NewFilename =", NewFilename)
+    ## BEGIN TEMP RENAME LOOP
+    for index, FileName in enumerate(ListOfFileNames):
         
+        ## CREATE TEMPORARY FILE NAME
+        TempFileName = f"__tempfile_{index}__.{FileExtension}"
 
-        ## IF NEWFILENAME DOES NOT EQUAL BASENAME...
-        if NewFilename != basename:
+        ## PATHS
+        PathOld = os.path.join(DirectoryTargetAbsolute, FileName)
+        PathTemp = os.path.join(DirectoryTargetAbsolute, TempFileName)
 
-            ##...THEN RENAME THE PATHNAME WITH NEWFILENAME
-            os.rename(pathname, os.path.join(os.path.dirname(pathname), NewFilename))
-            
-        ## ELSE DOES THIS CONDITION EVER GET TRIGGERED?
-        else:
-            print("DOES THIS CONDITION EVER GET TRIGGERED?")
+        ## RENAME TO TEMP
+        os.rename(PathOld, PathTemp)
 
+        ## SAVE MAPPING
+        TempFileMap[TempFileName] = FileName
 
-    ## END FOR LOOP
-    ## END FOR LOOP
-    ## END FOR LOOP
+        ## TEST PRINT OUTPUT
+        print(f"Temporarily Renamed: {FileName} -> {TempFileName}")
 
-    ## TEST OUTPUT - LIST OF FILENAMES IN DIRECTORY
-    print("glob.glob(files) =", glob.glob(files))
-    
+    ## RENAME FROM TEMP FILES TO FINAL SEQUENCE NAMES
+    TempFilesSorted = sorted(TempFileMap.keys())
 
-    ## BEGIN FOR LOOP
-    ## BEGIN FOR LOOP
-    ## BEGIN FOR LOOP
+    ## BEGIN FINAL RENAME LOOP
+    for i, TempFileName in enumerate(TempFilesSorted, start=1):
 
-    ## FOR EACH FILE IN glob.glob(files)
-    for each in glob.glob(files):
+        ## CREATE FINAL FILE NAME
+        FileNameNew = f"{i}.{FileExtension}"
 
-    ## FILE PATH TO DIRECTORY OF IMAGES
-        ## FILE PATH OF CURRENT WORKING DIRECTORY WITH IMAGES = e.g. C:\RootFolder\images
-        filepath = os.path.abspath('') ## = os.getcwd()
-        
-        ## TEST OUTPUT - FILE PATH OF CURRENT WORKING DIRECTORY
-        print("FILE PATH OF CURRENT WORKING DIRECTORY =", filepath)
+        ## PATHS
+        PathTemp = os.path.join(DirectoryTargetAbsolute, TempFileName)
+        PathNew = os.path.join(DirectoryTargetAbsolute, FileNameNew)
 
-        ## RENAME FILES IN CWD; JOIN EMPTY STRING FILEPATH + STRING OF INTEGER OF CURRENT COUNTER + STRING OF .GIF 
-        os.rename(os.path.join(filepath, each), os.path.join(filepath, str(i)+'.gif'))
+        ## RENAME
+        os.rename(PathTemp, PathNew)
 
-        ## INCREASE COUNTER
-        i = i+1
+        ## TEST PRINT OUTPUT
+        print(f"Final Rename: {TempFileName} -> {FileNameNew}")
 
-    ## END FOR LOOP
-    ## END FOR LOOP
-    ## END FOR LOOP
+    ## TEST PRINT OUTPUT
+    print(f"All .{FileExtension} files in '{DirectoryTarget}/' have been renamed.")
 
-    ## TEST OUTPUT - LIST OF FILENAMES IN DIRECTORY
-    print("glob.glob(files) =", glob.glob(files))
+## END DEFINE FUNCTION
 
-    ## TEST OUTPUT - GAME OVER
-    print("GAME OVER.  GO CHECK YOUR IMAGE FOLDER")
-    
-    
-## END DEFINE FUNCTIONS
-## END DEFINE FUNCTIONS
-## END DEFINE FUNCTIONS
+## BEGIN MAIN PROGRAM
+if __name__ == "__main__":
 
-### BEGIN MAIN PROGRAM
-### BEGIN MAIN PROGRAM
-### BEGIN MAIN PROGRAM
-    
-
-## CALL FUNCTION        
-fn_RenameFiles("*.gif", r"^(.*)\.gif$", r"new(\1).gif")
-
-### END MAIN PROGRAM
-### END MAIN PROGRAM
-### END MAIN PROGRAM
-
-## GAME OVER
-    
-## WE HOPE YOU ENJOYED AND THAT THIS HELPS YOUR UNDERSTANDING OF USING PYTHON LANGUAGE TO SOLVE PROBLEMS WITH PYTHON PROGRAMMING
-## PLEASE COME BACK AGAIN SOON
-## PLEASE VISIT OUR WEB SITES (OUR PROBLEM-SOLVING PROGRAMMING, CODING, & DEVELOPMENT SERVICES ARE AVAILABLE FOR HIRE):
-## www.JerusalemProgrammer.com
-## www.JerusalemProgrammers.com
-## www.JerusalemProgramming.com
-
-        
+    fn_RenameFilesByType("png")  ## gif, jpg, jpeg, png
